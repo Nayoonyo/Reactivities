@@ -2,23 +2,24 @@ using System;
 using FluentValidation;
 using MediatR;
 
-namespace Application.Core;
-
-public class ValidationBehavior<TRequest, TResponse>(IValidator<TRequest>? validator = null) 
-    :IPipelineBehavior<TRequest, TResponse>
-    where TRequest : notnull
+namespace Application.Core
 {
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public class ValidationBehavior<TRequest, TResponse>(IValidator<TRequest>? validator = null) 
+        :IPipelineBehavior<TRequest, TResponse>
+        where TRequest : notnull
     {
-       if(validator == null) return await next();
-
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
-        if (!validationResult.IsValid)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            throw new ValidationException(validationResult.Errors);
+           if(validator == null) return await next();
+
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
+
+            return await next();
         }
-
-        return await next();
     }
-}
 
+}

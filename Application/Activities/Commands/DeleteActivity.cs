@@ -3,30 +3,31 @@ using Application.Core;
 using MediatR;
 using Persistence;
 
-namespace Application.Activities.Commands;
-
-public class DeleteActivity
+namespace Application.Activities.Commands
 {
-    public class Command : IRequest<Result<Unit>>
+    public class DeleteActivity
     {
-        public required string Id { get; set; }
-    }
-
-    public class Handler(AppDbContext context) : IRequestHandler<Command, Result<Unit>>
-    {
-        public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+        public class Command : IRequest<Result<Unit>>
         {
-            var activity = await context.Activities
-            .FindAsync([request.Id], cancellationToken);
+            public required string Id { get; set; }
+        }
 
-            if (activity == null) return Result<Unit>.Failure("Activity not found", 404);
-            context.Remove(activity);
+        public class Handler(AppDbContext context) : IRequestHandler<Command, Result<Unit>>
+        {
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+            {
+                var activity = await context.Activities
+                .FindAsync([request.Id], cancellationToken);
 
-            var result = await context.SaveChangesAsync(cancellationToken) > 0;
+                if (activity == null) return Result<Unit>.Failure("Activity not found", 404);
+                context.Remove(activity);
 
-            if (!result) return Result<Unit>.Failure("Failed to delete activity", 400);
+                var result = await context.SaveChangesAsync(cancellationToken) > 0;
 
-            return Result<Unit>.Success(Unit.Value);
+                if (!result) return Result<Unit>.Failure("Failed to delete activity", 400);
+
+                return Result<Unit>.Success(Unit.Value);
+            }
         }
     }
 }

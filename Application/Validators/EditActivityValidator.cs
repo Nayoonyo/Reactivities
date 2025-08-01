@@ -3,14 +3,15 @@ using Application.Activities.Commands;
 using Application.Activities.DTOs;
 using FluentValidation;
 
-namespace Application.Validators;
-
-public class EditActivityValidator : BaseActivityValidator<EditActivity.Command, EditActivityDto>
+namespace Application.Validators
 {
-    public EditActivityValidator() : base(x => x.ActivityDto)
+    public class EditActivityValidator : BaseActivityValidator<EditActivity.Command, EditActivityDto>
     {
-        RuleFor(x => x.ActivityDto.Id)
-            .NotEmpty().WithMessage("Activity ID is required"); 
+        public EditActivityValidator() : base(x => x.ActivityDto)
+        {
+            RuleFor(x => x.ActivityDto.Id)
+                .NotEmpty().WithMessage("Activity ID is required"); 
             
+        }
     }
 }

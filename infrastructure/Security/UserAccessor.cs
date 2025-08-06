@@ -3,6 +3,7 @@ using System.Security.Claims;
 using Application.Interfaces;
 using Domain;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Infrastructure.Security;
@@ -23,6 +24,12 @@ public class UserAccessor(IHttpContextAccessor httpContextAccessor, AppDbContext
 
     }
 
-
+    public async Task<User> GetUserwithPhotosAsync()
+    {
+        return await dbContext.Users
+        .Include(u => u.Photos)
+        .FirstOrDefaultAsync(u => u.Id == GetUserId())
+             ?? throw new UnauthorizedAccessException("No user is logged in");
+    }
 }
 

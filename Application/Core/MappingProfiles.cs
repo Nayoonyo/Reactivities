@@ -23,10 +23,7 @@ namespace Application.Core
                 .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.User.DisplayName))
                 .ForMember(d => d.Bio, o => o.MapFrom(s => s.User.Bio))
                 .ForMember(d => d.ImageUrl, o => o.MapFrom(s => s.User.ImageUrl));
-            // Add your mapping configurations here
-            // For example:
-            // CreateMap<SourceType, DestinationType>();
-            // CreateMap<AnotherSourceType, AnotherDestinationType>();
+            CreateMap<User, UserProfile>();
         }
     }
 }

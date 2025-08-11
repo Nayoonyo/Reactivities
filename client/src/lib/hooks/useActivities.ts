@@ -17,10 +17,12 @@ export const useActivities = (id?: string) => {
     enabled: !id && location.pathname === "/activities" && !!currentUser,
     select: (data) => {
       return data.map((activity) => {
+        const isHost = activity.attendees.find((x) => x.id === activity.hostId);
         return {
           ...activity,
           isHost: currentUser?.id === activity.hostId,
           isGoing: activity.attendees.some((x) => x.id === currentUser?.id),
+          hostImageUrl: isHost?.imageUrl,
         };
       });
     },
@@ -34,10 +36,12 @@ export const useActivities = (id?: string) => {
     },
     enabled: !!id && !!currentUser,
     select: (data) => {
+      const isHost = data.attendees.find((x) => x.id === data.hostId);
       return {
         ...data,
         isHost: currentUser?.id === data.hostId,
         isGoing: data.attendees.some((x) => x.id === currentUser?.id),
+        hostImageUrl: isHost?.imageUrl,
       };
     },
   });
@@ -121,9 +125,9 @@ export const useActivities = (id?: string) => {
       );
       return { previousActivity };
     },
-    onError: (error, activityId, context)=> {
-      console.log('previousActivity' + context?.previousActivity)
-      console.log(error)
+    onError: (error, activityId, context) => {
+      console.log("previousActivity" + context?.previousActivity);
+      console.log(error);
       if (context?.previousActivity) {
         queryClient.setQueryData(
           ["activities", activityId],

@@ -12,8 +12,8 @@ import { NavLink } from "react-router";
 import MenuItemLink from "../shared/components/MenuItemLink";
 import { useStore } from "../../lib/hooks/useStore";
 import { Observer } from "mobx-react-lite";
-import { useAccount } from "../../lib/hooks/useAccount";
 import UserMenu from "./UserMenu";
+import { useAccount } from "../../lib/hooks/useAccount";
 
 export default function NavBar() {
   const {uiStore} = useStore(); 

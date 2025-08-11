@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { useAccount } from "../../lib/hooks/useAccount";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Paper, Typography } from "@mui/material";
 import { LockOpen } from "@mui/icons-material";
@@ -9,6 +8,7 @@ import {
   registerSchema,
   type RegisterSchema,
 } from "../../lib/schemas/registerSchema";
+import { useAccount } from "../../lib/hooks/useAccount";
 
 export default function RegisterForm() {
   const { registerUser } = useAccount();

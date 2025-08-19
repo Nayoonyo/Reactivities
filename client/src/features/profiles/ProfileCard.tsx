@@ -15,14 +15,14 @@ type Prof = {
 };
 
 export default function ProfileCard({ profile }: Prof) {
-  const following = false; // This would typically come from props or state
+   // This would typically come from props or state
   return (
     <Link to={`/profile/${profile.id}`} style={{ textDecoration: "none" }}>
       <Card
-        sx={{ borderRadius: 3, p: 3, maxWidth: 300, textDecoration: "none" }}
+        sx={{ borderRadius: 3, p: 3, maxWidth: 250, textDecoration: "none" }}
         elevation={4}
       >
-        <CardMedia
+        <CardMedia 
           component="img"
           src={profile?.imageUrl || "/images/user.png"}
           sx={{ width: '100%', zIndex: 50 }}
@@ -45,7 +45,7 @@ export default function ProfileCard({ profile }: Prof) {
               </Typography>
             )}
 
-            {following && (
+            {profile.following && (
               <Chip
                 size="small"
                 label="following"
@@ -64,7 +64,7 @@ export default function ProfileCard({ profile }: Prof) {
           }}
         >
           <Person />
-          <Typography sx={{ ml: 1 }}>20 Followers</Typography>
+          <Typography sx={{ ml: 1 }}>{profile.followersCount}</Typography>
         </Box>
       </Card>
     </Link>

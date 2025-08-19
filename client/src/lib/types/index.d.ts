@@ -1,3 +1,8 @@
+type PagedList<T, TCursor>={
+  items: T[],
+  nextCursor: TCursor
+}
+
 type Activity = {
   id: string;
   title: string;
@@ -14,7 +19,7 @@ type Activity = {
   isHost: boolean;
   hostId: string;
   hostDispalyName: string;
-  hostImageUrl: string;
+  hostImageUrl?: string;
 };
 
 type Profile = {
@@ -22,12 +27,14 @@ type Profile = {
   displayName: string;
   bio?: string;
   imageUrl?: string;
+  followersCount?: number
+  followingCount?: number
+  following?: boolean
 };
 
 type Photo = {
   id: string;
-  url: string;
-  
+  url: string;  
 }
 
 type User = {
@@ -35,6 +42,7 @@ type User = {
   displayName: string;
   username: string;
   imageUrl?: string;
+  
 };
 
 type ChatComment={
